@@ -2,7 +2,13 @@ package twiml
 
 // Constants for language
 const (
+	Man                = "man"
+	Woman              = "woman"
 	Alice              = "alice"
+	English            = "en"
+	French             = "fr"
+	Spanish            = "es"
+	German             = "de"
 	DanishDenmark      = "da-DK"
 	GermanGermany      = "de-DE"
 	EnglishAustralia   = "en-AU"
@@ -48,4 +54,10 @@ const (
 	OutboundAPI  = "outbound-api"
 	Inbound      = "inbound"
 	OutboundDial = "outbound-dial"
+)
+
+// Trim options
+const (
+	TrimSilence = "trim-silence"
+	DoNotTrim   = "do-not-trim"
 )

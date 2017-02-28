@@ -14,6 +14,7 @@ func Bind(cbRequest interface{}, r *http.Request) error {
 	if err := r.ParseForm(); err != nil {
 		return err
 	}
+	decoder.IgnoreUnknownKeys(true)
 	if err := decoder.Decode(cbRequest, r.PostForm); err != nil {
 		return err
 	}

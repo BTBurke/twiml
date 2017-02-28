@@ -2,7 +2,6 @@ package twiml
 
 import (
 	"encoding/xml"
-	"fmt"
 	"strings"
 	"testing"
 
@@ -44,9 +43,10 @@ var _ = Describe("TwiML responses", func() {
 		exp := buildResponse(
 			x("<Dial action=\"https://testurl.com\">415-999-9999</Dial>", 2),
 		)
-		err := r.Add(d)
+		r.Add(&d)
+		resp, err := r.String()
 		Expect(err).ToNot(HaveOccurred())
-		Expect(r.String()).To(Equal(exp))
+		Expect(resp).To(Equal(exp))
 	})
 
 	It("can encode nested verbs and nouns", func() {
@@ -63,11 +63,16 @@ var _ = Describe("TwiML responses", func() {
 			x("</Dial>", 2),
 		)
 
-		err := d.Add(c)
-		err2 := r.Add(d)
-		fmt.Printf(r.String())
+		d.Add(&c)
+		r.Add(&d)
+		s, err := r.String()
 		Expect(err).ToNot(HaveOccurred())
-		Expect(err2).ToNot(HaveOccurred())
-		Expect(r.String()).To(Equal(exp))
+		Expect(s).To(Equal(exp))
+	})
+
+	It("will validate markup and prevent encoding on errors", func() {
+		d := Dial{Method: "TEST"}
+		err := d.Validate()
+		Expect(err).To(HaveOccurred())
 	})
 })
