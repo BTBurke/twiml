@@ -243,7 +243,7 @@ func (p *Pause) Type() string {
 type Play struct {
 	XMLName xml.Name `xml:"Play"`
 	Loop    int      `xml:"loop,attr,omitempty"`
-	Digits  int      `xml:"digits,attr,omitempty"`
+	Digits  string   `xml:"digits,attr,omitempty"`
 	URL     string   `xml:",chardata"`
 }
 
