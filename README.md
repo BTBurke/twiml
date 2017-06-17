@@ -8,14 +8,14 @@ This library does not yet cover the entire TwiML API, but pull requests are welc
 
 The library contains helpers to bind incoming Twilio requests to a struct that includes all of the available info from the request.  Most initial requests from Twilio are of type `twiml.VoiceRequest`.  Other request types are possible as a result of callbacks you register in your response.  See the [GoDoc](https://godoc.org/BTBurke/twiml) for details.
 
-```
+```go
 func(w http.ResponseWriter, r *http.Request) {
-		var vr twiml.VoiceRequest
-		if err := twiml.Bind(&vr, r); err != nil {
-			http.Error(w, http.StatusText(400), 400)
-			return
-		}
-        fmt.Printf("Incoming call from %s", vr.From)
+	var vr twiml.VoiceRequest
+    if err := twiml.Bind(&vr, r); err != nil {
+        http.Error(w, http.StatusText(400), 400)
+        return
+    }
+    fmt.Printf("Incoming call from %s", vr.From)
 }
 ```
 
