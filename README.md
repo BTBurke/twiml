@@ -26,8 +26,8 @@ Once you receive a request from the Twilio API, you construct a TwiML response t
 ```golang
 // CallRequest will return XML to connect to the forwarding number
 func CallRequest(cfg Config) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		
+    return func(w http.ResponseWriter, r *http.Request) {
+
         // Bind the request
         var cr twiml.VoiceRequest
         if err := twiml.Bind(&cr, r); err != nil {
@@ -91,8 +91,8 @@ func CallRequest(cfg Config) func(http.ResponseWriter, *http.Request) {
             w.Header().Set("Content-Type", "application/xml")
             w.WriteHeader(200)
             return
-		}
-	}
+        }
+    }
 }
 ```
 
