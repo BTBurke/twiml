@@ -10,7 +10,7 @@ The library contains helpers to bind incoming Twilio requests to a struct that i
 
 ```go
 func(w http.ResponseWriter, r *http.Request) {
-	var vr twiml.VoiceRequest
+    var vr twiml.VoiceRequest
     if err := twiml.Bind(&vr, r); err != nil {
         http.Error(w, http.StatusText(400), 400)
         return
