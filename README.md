@@ -23,7 +23,7 @@ func(w http.ResponseWriter, r *http.Request) {
 
 Once you receive a request from the Twilio API, you construct a TwiML response to provide directions for how to deal with the call.  This library includes (most of) the allowable verbs and rules to validate that your response is constructed properly.
 
-```go
+```golang
 // CallRequest will return XML to connect to the forwarding number
 func CallRequest(cfg Config) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
