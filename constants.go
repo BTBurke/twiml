@@ -1,6 +1,6 @@
 package twiml
 
-// Constants for language
+// Language and speaker options
 const (
 	Man                = "man"
 	Woman              = "woman"

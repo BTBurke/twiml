@@ -2,8 +2,8 @@ package twiml
 
 import "regexp"
 
-//type ValidationFunc func(...interface{}) bool
-
+// Validate aggregates the results of individual validation functions and returns true
+// when all validation functions pass
 func Validate(vf ...bool) bool {
 	for _, f := range vf {
 		if !f {
@@ -13,6 +13,7 @@ func Validate(vf ...bool) bool {
 	return true
 }
 
+// OneOf validates that a field is one of the options provided
 func OneOf(field string, options ...string) bool {
 	for _, w := range options {
 		if field == w {
@@ -22,6 +23,7 @@ func OneOf(field string, options ...string) bool {
 	return false
 }
 
+// IntBetween validates that a field is an integer between high and low
 func IntBetween(field int, high int, low int) bool {
 	if (field <= high) && (field >= low) {
 		return true
@@ -29,6 +31,7 @@ func IntBetween(field int, high int, low int) bool {
 	return false
 }
 
+// Required validates that a field is not the empty string
 func Required(field string) bool {
 	if len(field) > 0 {
 		return true
@@ -36,6 +39,7 @@ func Required(field string) bool {
 	return false
 }
 
+// OneOfOpt validates that a field is one of the options provided or the empty string (for optional fields)
 func OneOfOpt(field string, options ...string) bool {
 	if field == "" {
 		return true
@@ -43,6 +47,7 @@ func OneOfOpt(field string, options ...string) bool {
 	return OneOf(field, options...)
 }
 
+// AllowedMethod validates that a method is either of type GET or POST (or empty string to default)
 func AllowedMethod(field string) bool {
 	// optional field always set with default (typically POST)
 	if field == "" {
@@ -54,6 +59,7 @@ func AllowedMethod(field string) bool {
 	return true
 }
 
+// Numeric validates that a string contains only digits 0-9
 func Numeric(field string) bool {
 	matched, err := regexp.MatchString("^[0-9]+$", field)
 	if err != nil {
@@ -62,6 +68,7 @@ func Numeric(field string) bool {
 	return matched
 }
 
+// NumericOrWait validates that a string contains only digits 0-9 or the wait key 'w'
 func NumericOrWait(field string) bool {
 	matched, err := regexp.MatchString("^[0-9w]+$", field)
 	if err != nil {
@@ -70,6 +77,7 @@ func NumericOrWait(field string) bool {
 	return matched
 }
 
+// NumericOpt validates that the field is numeric or empty string (for optional fields)
 func NumericOpt(field string) bool {
 	if field == "" {
 		return true
@@ -77,6 +85,7 @@ func NumericOpt(field string) bool {
 	return Numeric(field)
 }
 
+// AllowedLanguage validates that the combination of speaker and language is allowable
 func AllowedLanguage(speaker string, language string) bool {
 	switch speaker {
 	case Man, Woman:
@@ -115,6 +124,7 @@ func AllowedLanguage(speaker string, language string) bool {
 	}
 }
 
+// AllowedCallbackEvent validates that the CallbackEvent is one of the allowed options
 func AllowedCallbackEvent(events string) bool {
 	if events == "" {
 		return true

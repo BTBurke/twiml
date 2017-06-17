@@ -1,6 +1,6 @@
 package twiml
 
-// VoiceRequest represents the standard request format for callbacks.  This struct is
+// VoiceRequest represents the standard request format for callbacks received from the Twilio API.  This struct is
 // embedded in other callback requests that return this common data format.
 type VoiceRequest struct {
 	CallSid       string

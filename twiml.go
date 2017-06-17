@@ -9,15 +9,20 @@ import (
 	"strings"
 )
 
+// Markup interface is satisfied by valid TwiML verbs.
 type Markup interface {
+	// Type returns the TwiML verb name for use in pattern-matching
 	Type() string
+	// Validate will verify that TwiML responses are properly constructed of allowed options for all fields
 	Validate() error
 }
 
+// ValidationError will return one or more errors encountered during validation
 type ValidationError struct {
 	Errors []error
 }
 
+// Error() returns a custom string representation of all errors encountered during validation
 func (v ValidationError) Error() string {
 	e := []string{"Invalid TwiML markup:"}
 	for _, err := range v.Errors {
@@ -33,10 +38,13 @@ type Response struct {
 	Children               []Markup
 }
 
+// Type returns the XML name of the verb
 func (r *Response) Type() string {
 	return "Response"
 }
 
+// Validate recursively validates all nested verbs within the response, returning a ValidationError
+// if any are constructed improperly
 func (r *Response) Validate() error {
 	if len(r.Children) == 0 {
 		return ValidationError{[]error{fmt.Errorf("Can not encode an empty response")}}
@@ -58,7 +66,7 @@ func (r *Response) Validate() error {
 	return nil
 }
 
-// NewResponse creates new response
+// NewResponse creates new response container.  Use Add() to chain together the response from allowed verbs.
 func NewResponse() *Response {
 	resp := new(Response)
 	return resp

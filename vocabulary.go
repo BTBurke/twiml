@@ -13,6 +13,7 @@ type Client struct {
 	Name    string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (c *Client) Validate() error {
 	ok := Validate(
 		AllowedMethod(c.Method),
@@ -24,6 +25,7 @@ func (c *Client) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (c *Client) Type() string {
 	return "Client"
 }
@@ -48,6 +50,7 @@ type Conference struct {
 	EventCallbackURL              string   `xml:"eventCallbackUrl,attr,omitempty"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (c *Conference) Validate() error {
 	ok := Validate(
 		OneOfOpt(c.Beep, "true", "false", "onEnter", "onExit"),
@@ -64,6 +67,7 @@ func (c *Conference) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (c *Conference) Type() string {
 	return "Conference"
 }
@@ -82,6 +86,7 @@ type Dial struct {
 	Children     []Markup `xml:",omitempty"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (d *Dial) Validate() error {
 	var errs []error
 	for _, s := range d.Children {
@@ -117,6 +122,7 @@ func (d *Dial) Add(ml ...Markup) {
 	return
 }
 
+// Type returns the XML name of the verb
 func (d *Dial) Type() string {
 	return "Dial"
 }
@@ -132,6 +138,7 @@ type Enqueue struct {
 	QueueName     string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (e *Enqueue) Validate() error {
 	ok := Validate(
 		AllowedMethod(e.Method),
@@ -143,6 +150,7 @@ func (e *Enqueue) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (e *Enqueue) Type() string {
 	return "Enqueue"
 }
@@ -152,10 +160,12 @@ type Hangup struct {
 	XMLName xml.Name `xml:"Hangup"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (h *Hangup) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (h *Hangup) Type() string {
 	return "Hangup"
 }
@@ -165,10 +175,12 @@ type Leave struct {
 	XMLName xml.Name `xml:"Leave"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (l *Leave) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (l *Leave) Type() string {
 	return "Leave"
 }
@@ -185,6 +197,7 @@ type Sms struct {
 	Text           string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (s *Sms) Validate() error {
 	ok := Validate(
 		AllowedMethod(s.Method),
@@ -196,6 +209,7 @@ func (s *Sms) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (s *Sms) Type() string {
 	return "Sms"
 }
@@ -209,6 +223,7 @@ type Number struct {
 	Number     string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (n *Number) Validate() error {
 	ok := Validate(
 		NumericOpt(n.SendDigits),
@@ -221,6 +236,7 @@ func (n *Number) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (n *Number) Type() string {
 	return "Number"
 }
@@ -231,10 +247,12 @@ type Pause struct {
 	Length  int      `xml:"length,attr,omitempty"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (p *Pause) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (p *Pause) Type() string {
 	return "Pause"
 }
@@ -247,6 +265,7 @@ type Play struct {
 	URL     string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (p *Play) Validate() error {
 
 	ok := Validate(
@@ -260,6 +279,7 @@ func (p *Play) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (p *Play) Type() string {
 	return "Play"
 }
@@ -274,6 +294,7 @@ type Queue struct {
 	Name                string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (q *Queue) Validate() error {
 	ok := Validate(
 		AllowedMethod(q.Method),
@@ -285,6 +306,7 @@ func (q *Queue) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (q *Queue) Type() string {
 	return "Queue"
 }
@@ -305,6 +327,7 @@ type Record struct {
 	TranscribeCallback            string   `xml:"transcribeCallback,attr,omitempty"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (r *Record) Validate() error {
 	ok := Validate(
 		AllowedMethod(r.Method),
@@ -317,6 +340,7 @@ func (r *Record) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (r *Record) Type() string {
 	return "Record"
 }
@@ -328,6 +352,7 @@ type Redirect struct {
 	URL     string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (r *Redirect) Validate() error {
 	ok := Validate(
 		AllowedMethod(r.Method),
@@ -339,6 +364,7 @@ func (r *Redirect) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (r *Redirect) Type() string {
 	return "Redirect"
 }
@@ -349,6 +375,7 @@ type Reject struct {
 	Reason  string   `xml:"reason,attr,omitempty"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (r *Reject) Validate() error {
 	ok := Validate(
 		OneOfOpt(r.Reason, "rejected", "busy"),
@@ -359,6 +386,7 @@ func (r *Reject) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (r *Reject) Type() string {
 	return "Reject"
 }
@@ -372,6 +400,7 @@ type Say struct {
 	Text     string   `xml:",chardata"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (s *Say) Validate() error {
 	ok := Validate(
 		OneOfOpt(s.Voice, Man, Woman, Alice),
@@ -385,6 +414,7 @@ func (s *Say) Validate() error {
 
 }
 
+// Type returns the XML name of the verb
 func (s *Say) Type() string {
 	return "Say"
 }
@@ -405,6 +435,7 @@ type Sip struct {
 // TODO: Needs helpers to construct the SIP URL (specifying transport
 // and headers) See https://www.twilio.com/docs/api/twiml/sip
 
+// Validate returns an error if the TwiML is constructed improperly
 func (s *Sip) Validate() error {
 	//TODO: needs a custom validator type for statusCallbackEvent when set
 	//because valid values can be concatenated
@@ -419,6 +450,7 @@ func (s *Sip) Validate() error {
 	return nil
 }
 
+// Type returns the XML name of the verb
 func (s *Sip) Type() string {
 	return "Sip"
 }
@@ -434,6 +466,7 @@ type Gather struct {
 	Children    []Markup `valid:"-"`
 }
 
+// Validate returns an error if the TwiML is constructed improperly
 func (g *Gather) Validate() error {
 	var errs []error
 
@@ -469,6 +502,7 @@ func (g *Gather) Add(ml ...Markup) {
 	return
 }
 
+// Type returns the XML name of the verb
 func (g *Gather) Type() string {
 	return "Gather"
 }
