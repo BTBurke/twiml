@@ -55,7 +55,15 @@ func AllowedMethod(field string) bool {
 }
 
 func Numeric(field string) bool {
-	matched, err := regexp.MatchString("[0-9]+", field)
+	matched, err := regexp.MatchString("^[0-9]+$", field)
+	if err != nil {
+		return false
+	}
+	return matched
+}
+
+func NumericOrWait(field string) bool {
+	matched, err := regexp.MatchString("^[0-9w]+$", field)
 	if err != nil {
 		return false
 	}

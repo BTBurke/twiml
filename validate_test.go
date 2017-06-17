@@ -13,6 +13,13 @@ var _ = Describe("Validators", func() {
 		Expect(ok).To(Equal(true))
 	})
 
+	It("can validate digits with wait", func() {
+		notok := Validate(NumericOrWait("123456789p"))
+		ok := Validate(NumericOrWait("0123456789wwww"))
+		Expect(notok).To(Equal(false))
+		Expect(ok).To(Equal(true))
+	})
+
 	It("can validate several validators at once", func() {
 		ok := Validate(
 			OneOf("test", "test"),
