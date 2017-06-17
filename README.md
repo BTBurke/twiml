@@ -1,6 +1,6 @@
 TwiML
 ===
-[![Go Doc](https://godoc.org/github.com/BTBurke/twiml?status.svg)](https://godoc.org/github.com/BTBurke/twiml)
+[![Go Doc](https://godoc.org/github.com/BTBurke/twiml?status.svg)](https://godoc.org/github.com/BTBurke/twiml)[![CircleCI](https://circleci.com/gh/BTBurke/twiml.svg?style=svg)](https://circleci.com/gh/BTBurke/twiml)
 
 
 A library for producing TwiML XML markup for use with the Twilio API.  This library can generate TwiML responses and provides helpers for processing callbacks and requests from Twilio.
