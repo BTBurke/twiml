@@ -23,74 +23,74 @@ func(w http.ResponseWriter, r *http.Request) {
 
 Once you receive a request from the Twilio API, you construct a TwiML response to provide directions for how to deal with the call.  This library includes (most of) the allowable verbs and rules to validate that your response is constructed properly.
 
-``` 
+```go 
 // CallRequest will return XML to connect to the forwarding number
 func CallRequest(cfg Config) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		
         // Bind the request
         var cr twiml.VoiceRequest
-		if err := twiml.Bind(&cr, r); err != nil {
-			http.Error(w, http.StatusText(400), 400)
-			return
-		}
+        if err := twiml.Bind(&cr, r); err != nil {
+            http.Error(w, http.StatusText(400), 400)
+            return
+        }
 
         // Create a new response container
-		res := twiml.NewResponse()
+        res := twiml.NewResponse()
 
-		switch status := cr.CallStatus; status {
-		
+        switch status := cr.CallStatus; status {
+
         // Call is already in progress, tell Twilio to continue
         case twiml.InProgress:
-			w.WriteHeader(200)
-			return
-        
+            w.WriteHeader(200)
+            return
+
         // Call is ringing but has not been connected yet, respond with
         // a forwarding number
-		case twiml.Ringing, twiml.Queued:
-			// Create a new Dial verb
+        case twiml.Ringing, twiml.Queued:
+            // Create a new Dial verb
             d := twiml.Dial{
-				Number:   cfg.ForwardingNumber,
-				Action:   "action/",
-				Timeout:  15,
-				CallerID: cr.To,
-			}
+                Number:   cfg.ForwardingNumber,
+                Action:   "action/",
+                Timeout:  15,
+                CallerID: cr.To,
+            }
 
             // Add the verb to the response
-			res.Add(&d)
-			
+            res.Add(&d)
+            
             // Validate and encode the response.  Validation is done
             // automatically before the response is encoded.
             b, err := res.Encode()
-			if err != nil {
-				http.Error(w, http.StatusText(502), 502)
-				return
-			}
+            if err != nil {
+                http.Error(w, http.StatusText(502), 502)
+                return
+            }
 
             // Write the XML response to the http.ReponseWriter
-			if _, err := w.Write(b); err != nil {
-				http.Error(w, http.StatusText(502), 502)
-				return
-			}
-			w.Header().Set("Content-Type", "application/xml")
-			w.WriteHeader(200)
-			return
+            if _, err := w.Write(b); err != nil {
+                http.Error(w, http.StatusText(502), 502)
+                return
+            }
+            w.Header().Set("Content-Type", "application/xml")
+            w.WriteHeader(200)
+            return
 
         // Call is over, hang up
-		default:
-			res.Add(&twiml.Hangup{})
-			b, err := res.Encode()
-			if err != nil {
-				http.Error(w, http.StatusText(502), 502)
-				return
-			}
-			if _, err := w.Write(b); err != nil {
-				http.Error(w, http.StatusText(502), 502)
-				return
-			}
-			w.Header().Set("Content-Type", "application/xml")
-			w.WriteHeader(200)
-			return
+        default:
+            res.Add(&twiml.Hangup{})
+            b, err := res.Encode()
+            if err != nil {
+                http.Error(w, http.StatusText(502), 502)
+                return
+            }
+            if _, err := w.Write(b); err != nil {
+                http.Error(w, http.StatusText(502), 502)
+                return
+            }
+            w.Header().Set("Content-Type", "application/xml")
+            w.WriteHeader(200)
+            return
 		}
 	}
 }
