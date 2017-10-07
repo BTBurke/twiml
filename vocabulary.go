@@ -457,13 +457,19 @@ func (s *Sip) Type() string {
 
 // Gather TwiML
 type Gather struct {
-	XMLName     xml.Name `xml:"Gather"`
-	Action      string   `xml:"action,attr,omitempty"`
-	Method      string   `xml:"method,attr,omitempty"`
-	Timeout     int      `xml:"timeout,attr,omitempty"`
-	FinishOnKey string   `xml:"finishOnKey,attr,omitempty"`
-	NumDigits   int      `xml:"numDigits,attr,omitempty"`
-	Children    []Markup `valid:"-"`
+	XMLName               xml.Name `xml:"Gather"`
+	Action                string   `xml:"action,attr,omitempty"`
+	Method                string   `xml:"method,attr,omitempty"`
+	Timeout               int      `xml:"timeout,attr,omitempty"`
+	FinishOnKey           string   `xml:"finishOnKey,attr,omitempty"`
+	NumDigits             int      `xml:"numDigits,attr,omitempty"`
+	Input                 string   `xml:"input,attr,omitempty"`
+	Hints                 string   `xml:"hints,attr,omitempty"`
+	PartialResultCallback string   `xml:"partialResultCallback,attr,omitempty"`
+	Language              string   `xml:"language,attr,omitempty"`
+	ProfanityFilter       bool     `xml:"profanityFilter,attr,omitempty"`
+	SpeechTimeout         int      `xml:"speechTimeout,attr,omitempty"`
+	Children              []Markup `valid:"-"`
 }
 
 // Validate returns an error if the TwiML is constructed improperly
