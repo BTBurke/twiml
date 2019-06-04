@@ -139,7 +139,7 @@ type Enqueue struct {
 	Action        string   `xml:"action,attr,omitempty"`
 	Method        string   `xml:"method,attr,omitempty"`
 	WaitURL       string   `xml:"waitUrl,attr,omitempty"`
-	WaitURLMethod string   `xml:"waiUrlMethod,attr,omitempty"`
+	WaitURLMethod string   `xml:"waitUrlMethod,attr,omitempty"`
 	WorkflowSid   string   `xml:"workflowSid,attr,omitempty"`
 	QueueName     string   `xml:",chardata"`
 }
