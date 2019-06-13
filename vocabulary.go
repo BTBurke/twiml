@@ -33,6 +33,7 @@ func (c *Client) Type() string {
 // Conference TwiML
 type Conference struct {
 	XMLName                       xml.Name `xml:"Conference"`
+	ConferenceName                string   `xml:",chardata"`
 	Muted                         bool     `xml:"muted,attr,omitempty"`
 	Beep                          string   `xml:"beep,attr,omitempty"`
 	StartConferenceOnEnter        bool     `xml:"startConferenceOnEnter,attr,omitempty"`
