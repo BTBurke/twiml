@@ -58,7 +58,7 @@ func (c *Conference) Validate() error {
 		AllowedMethod(c.WaitMethod),
 		OneOfOpt(c.Record, "do-not-record", "record-from-start"),
 		OneOfOpt(c.Trim, "trim-silence", "do-not-trim"),
-		OneOfOpt(c.StatusCallbackEvent, "start", "end", "join", "leave", "mute", "hold"),
+		AllowedCallbackEvent(c.StatusCallbackEvent, ConferenceCallbackEvents),
 		AllowedMethod(c.StatusCallbackMethod),
 		AllowedMethod(c.RecordingStatusCallbackMethod),
 	)
@@ -448,7 +448,7 @@ func (s *Sip) Validate() error {
 	//because valid values can be concatenated
 	ok := Validate(
 		AllowedMethod(s.StatusCallbackMethod),
-		AllowedCallbackEvent(s.StatusCallbackEvent),
+		AllowedCallbackEvent(s.StatusCallbackEvent, SipCallbackEvents),
 		Required(s.Address),
 	)
 	if !ok {
