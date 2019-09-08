@@ -27,4 +27,18 @@ var _ = Describe("Validators", func() {
 		)
 		Expect(ok).To(Equal(false))
 	})
+
+	It("can validate Sip Callback Events", func() {
+		ok := Validate(AllowedCallbackEvent("initiated ringing answered", SipCallbackEvents))
+		notOk := Validate(AllowedCallbackEvent("initiated ringing fakeevent answered", SipCallbackEvents))
+		Expect(ok).To(Equal(true))
+		Expect(notOk).To(Equal(false))
+	})
+
+	It("can validate Conference Callback Events", func() {
+		ok := Validate(AllowedCallbackEvent("start end join leave mute hold speaker", ConferenceCallbackEvents))
+		notOk := Validate(AllowedCallbackEvent("start end join leave initiated hold speaker", ConferenceCallbackEvents))
+		Expect(ok).To(Equal(true))
+		Expect(notOk).To(Equal(false))
+	})
 })

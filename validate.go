@@ -1,6 +1,10 @@
 package twiml
 
-import "regexp"
+import (
+	"fmt"
+	"regexp"
+	"strings"
+)
 
 // Validate aggregates the results of individual validation functions and returns true
 // when all validation functions pass
@@ -124,11 +128,30 @@ func AllowedLanguage(speaker string, language string) bool {
 	}
 }
 
+// construct regexp to validate a list of callback events
+func constructCallbackEventValidator(eventNames []string) *regexp.Regexp {
+	eventPatterns := make([]string, 0)
+
+	for _, eventName := range eventNames {
+		eventPatterns = append(eventPatterns, fmt.Sprintf("%s\\s?", eventName))
+	}
+
+	expression := fmt.Sprintf("^(%s)+$", strings.Join(eventPatterns, "|"))
+	return regexp.MustCompile(expression)
+}
+
+var (
+	// callback events valid for Sip TwiML block
+	SipCallbackEvents = constructCallbackEventValidator([]string{"initiated", "ringing", "answered", "completed"})
+
+	// callback events valid for Conference TwiML block
+	ConferenceCallbackEvents = constructCallbackEventValidator([]string{"start", "end", "join", "leave", "mute", "hold", "speaker"})
+)
+
 // AllowedCallbackEvent validates that the CallbackEvent is one of the allowed options
-func AllowedCallbackEvent(events string) bool {
+func AllowedCallbackEvent(events string, callbackValidator *regexp.Regexp) bool {
 	if events == "" {
 		return true
 	}
-	var validEvents = regexp.MustCompile(`^(initiated\s?|ringing\s?|answered\s?|completed\s?)+$`)
-	return validEvents.MatchString(events)
+	return callbackValidator.MatchString(events)
 }
