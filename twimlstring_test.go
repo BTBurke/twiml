@@ -59,10 +59,17 @@ func TestTwimlStringOutput(t *testing.T) {
 	}
 
 	d := m[0].(*Say)
-	if d.Voice != "man" {
-		t.Errorf("Failed to parse into correct attributes. Expected man got %s", d.Voice)
+
+	if len(d.Children) == 0 {
+		t.Errorf("Failed to parse SSML")
 		return
 	}
+
+	if d.Children[0].Type() != "SSMLText" {
+		t.Errorf("Failed to parse into correct SSML type. Expected SSMLText got %s", d.Children[0].Type())
+		return
+	}
+
 }
 
 
