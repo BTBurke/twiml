@@ -28,6 +28,16 @@ import (
 //
 //
 
+// Markup interface is satisfied by valid TwiML verbs.
+type TwiMLStringMarkup interface {
+	// Type returns the TwiML verb name for use in pattern-matching
+	Type() string
+	// Validate will verify that TwiML responses are properly constructed of allowed options for all fields
+	Validate() error
+}
+
+type TwiMLStringVerb func(a []string) Markup
+
 // ParseString ...
 func ParseString(s string) []Markup   {
 
@@ -75,7 +85,7 @@ func ParseString(s string) []Markup   {
 }
 
 // toTwiml ...
-func toTwiml(statement string, attributes []string) Markup {
+func toTwiml(verb string, attributes []string) Markup {
 
 	content := "";
 	if len(attributes) > 0 {
@@ -95,9 +105,7 @@ func toTwiml(statement string, attributes []string) Markup {
 		}
 	}
 
-
-
-	switch statement {
+	switch verb {
 	default:
 		return nil
 	case "p":
@@ -139,7 +147,7 @@ func toTwiml(statement string, attributes []string) Markup {
 			Children: []Markup{
 				&SSMLSayAs{
 					Text: content,
-					InterpretAs: statement,
+					InterpretAs: verb,
 				},
 			},
 		}

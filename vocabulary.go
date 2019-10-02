@@ -409,7 +409,7 @@ type Say struct {
 	Loop     int      `xml:"loop,attr,omitempty"`
 	Text     string   `xml:",chardata"`
 	Children []Markup `xml:"",valid:"-"`
-	Polly	 bool
+	Polly	 bool	  `xml:"",valid:"-"`
 }
 
 // Validate returns an error if the TwiML is constructed improperly
