@@ -275,14 +275,17 @@ type Play struct {
 // Validate returns an error if the TwiML is constructed improperly
 func (p *Play) Validate() error {
 
-	ok := Validate(
-		Required(p.URL),
-		NumericOrWait(p.Digits),
-	)
-
-	if !ok {
+	ok := Validate(Required(p.URL)); if !ok {
 		return fmt.Errorf("%s markup failed validation", p.Type())
 	}
+
+	if p.Digits != "" {
+		ok := Validate(NumericOrWait(p.Digits));
+		if !ok {
+			return fmt.Errorf("%s markup failed validation", p.Type())
+		}
+	}
+
 	return nil
 }
 
@@ -405,20 +408,52 @@ type Say struct {
 	Language string   `xml:"language,attr,omitempty"`
 	Loop     int      `xml:"loop,attr,omitempty"`
 	Text     string   `xml:",chardata"`
+	Children []Markup `xml:"",valid:"-"`
+	Polly	 bool
 }
 
 // Validate returns an error if the TwiML is constructed improperly
 func (s *Say) Validate() error {
-	ok := Validate(
-		OneOfOpt(s.Voice, Man, Woman, Alice),
-		AllowedLanguage(s.Voice, s.Language),
-		Required(s.Text),
-	)
-	if !ok {
-		return fmt.Errorf("%s markup failed validation", s.Type())
-	}
-	return nil
 
+	var errs []error
+
+	for _, sm := range s.Children {
+		switch t := sm.Type(); t {
+		default:
+			return fmt.Errorf("Not a valid verb as child of Say: '%T'", sm)
+		case "SSMLSayAs", "SSMLText", "SSMLBreak", "SSMLEmphasis", "SSMLProsody", "SSMLEffect":
+			if childErr := sm.Validate(); childErr != nil {
+				errs = append(errs, childErr)
+			}
+		}
+	}
+
+	if !s.Polly {
+		ok := Validate(
+			OneOfOpt(s.Voice, Man, Woman, Alice),
+			AllowedLanguage(s.Voice, s.Language),
+		)
+		if !ok {
+			errs = append(errs, fmt.Errorf("%s markup failed validation", s.Type()))
+			return ValidationError{errs}
+		}
+	}
+
+	if len(s.Children) == 0 {
+		ok := Validate(
+			Required(s.Text),
+		)
+		if !ok {
+			errs = append(errs, fmt.Errorf("%s markup failed validation", s.Type()))
+			return ValidationError{errs}
+		}
+	}
+
+	if len(errs) > 0 {
+		return ValidationError{errs}
+	}
+
+	return nil
 }
 
 // Type returns the XML name of the verb
@@ -519,3 +554,6 @@ func (g *Gather) Add(ml ...Markup) {
 func (g *Gather) Type() string {
 	return "Gather"
 }
+
+
+
