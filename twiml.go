@@ -52,7 +52,7 @@ func (r *Response) Validate() error {
 	var errs []error
 	for _, s := range r.Children {
 		switch t := s.Type(); t {
-		case "Enqueue", "Hangup", "Leave", "Pause", "Play", "Record", "Redirect", "Reject", "Say", "Dial", "Gather":
+		case "Enqueue", "Hangup", "Leave", "Pause", "Play", "Record", "Redirect", "Reject", "Say", "Dial", "Gather", "Sms":
 			if childErr := s.Validate(); childErr != nil {
 				errs = append(errs, childErr)
 			}
