@@ -138,15 +138,11 @@ type Dial struct {
 // Validate returns an error if the TwiML is constructed improperly
 func (d *Dial) Validate() error {
 	var errs []error
-	var hasSIPChild bool
 	for _, s := range d.Children {
 		switch t := s.Type(); t {
 		default:
 			return fmt.Errorf("Not a valid verb under Dial: '%T'", s)
 		case "Client", "Conference", "Number", "Queue", "Sip":
-			if t == "Sip" {
-				hasSIPChild = true
-			}
 			if childErr := s.Validate(); childErr != nil {
 				errs = append(errs, childErr)
 			}
@@ -156,9 +152,6 @@ func (d *Dial) Validate() error {
 	ok := Validate(
 		OneOfOpt(d.Method, "GET", "POST"),
 	)
-	if ok && !hasSIPChild {
-		ok = Validate(Required(d.Number))
-	}
 	if !ok {
 		errs = append(errs, fmt.Errorf("Dial did not pass validation"))
 	}
