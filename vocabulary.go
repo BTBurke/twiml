@@ -5,29 +5,77 @@ import (
 	"fmt"
 )
 
-// Client TwiML
+// Twilio Client TwiML
 type Client struct {
-	XMLName xml.Name `xml:"Client"`
-	Method  string   `xml:"method,attr,omitempty"`
-	URL     string   `xml:"URL,omitempty"`
-	Name    string   `xml:",chardata"`
+	XMLName  xml.Name `xml:"Client"`
+	Name     string   `xml:",chardata"`
+	Identity string   `xml:"Identity,omitempty"` // same as name
+
+	Method               string   `xml:"method,attr,omitempty"`
+	URL                  string   `xml:"url,attr,omitempty"`
+	StatusCallback       string   `xml:"statusCallback,attr,omitempty"`
+	StatusCallbackEvent  string   `xml:"statusCallbackEvent,attr,omitempty"`
+	StatusCallbackMethod string   `xml:"statusCallbackMethod,attr,omitempty"`
+	Children             []Markup `xml:",omitempty"`
+}
+
+// Add adds noun structs to a Client response as children
+func (c *Client) Add(ml ...Markup) {
+	for _, s := range ml {
+		c.Children = append(c.Children, s)
+	}
+	return
 }
 
 // Validate returns an error if the TwiML is constructed improperly
 func (c *Client) Validate() error {
-	ok := Validate(
-		AllowedMethod(c.Method),
-		Required(c.Name),
-	)
-	if !ok {
+	var ok bool
+
+	if ok = Validate(AllowedMethod(c.Method)); !ok {
 		return fmt.Errorf("Client markup failed validation")
 	}
+
+	// require either name or identity
+	if ok = len(c.Name) > 0 || len(c.Identity) > 0; !ok {
+		return fmt.Errorf("Client markup failed validation")
+	}
+
+	if ok = c.validParameters(); !ok {
+		return fmt.Errorf("Client markup failed validation")
+	}
+
 	return nil
+}
+
+// validParameters checks that if parameters are set, name is empty and we have an identity
+func (c *Client) validParameters() bool {
+	// cannot have both of these be true at once
+	return len(c.Children) == 0 || (len(c.Name) == 0 || len(c.Identity) != 0)
 }
 
 // Type returns the XML name of the verb
 func (c *Client) Type() string {
 	return "Client"
+}
+
+// Twilio Client Parameter TwiML
+type Parameter struct {
+	XMLName xml.Name `xml:"Parameter"`
+	Name    string   `xml:"name,attr,omitempty"`
+	Value   string   `xml:"value,attr,omitempty"`
+}
+
+func (p Parameter) Type() string {
+	return "Parameter"
+}
+
+// Validate <Parameter> noun
+func (p Parameter) Validate() error {
+	if ok := Validate(Required(p.Name), Required(p.Value)); !ok {
+		return fmt.Errorf("parameter markup failed validation")
+	}
+
+	return nil
 }
 
 // Conference TwiML
