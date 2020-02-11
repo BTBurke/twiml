@@ -84,7 +84,6 @@ func (r *Response) Add(ml ...Markup) {
 // Encode returns an XML encoded response or a ValidationError if any
 // markup fails validation.
 func (r *Response) Encode() ([]byte, error) {
-
 	var buf = new(bytes.Buffer)
 
 	if err := r.Validate(); err != nil {
