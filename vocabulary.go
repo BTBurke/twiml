@@ -123,16 +123,28 @@ func (c *Conference) Type() string {
 
 // Dial TwiML
 type Dial struct {
-	XMLName      xml.Name `xml:"Dial"`
-	Action       string   `xml:"action,attr,omitempty"`
-	Method       string   `xml:"method,attr,omitempty"`
-	Timeout      int      `xml:"timeout,attr,omitempty"`
-	HangupOnStar bool     `xml:"hangupOnStar,attr,omitempty"`
-	TimeLimit    int      `xml:"timeLimit,attr,omitempty"`
-	CallerID     string   `xml:"callerId,attr,omitempty"`
-	Record       bool     `xml:"record,attr,omitempty"`
-	Number       string   `xml:",chardata"`
-	Children     []Markup `xml:",omitempty"`
+	XMLName xml.Name `xml:"Dial"`
+
+	Action         string `xml:"action,attr,omitempty"`
+	AnswerOnBridge bool   `xml:"answerOnBridge,attr,omitempty"`
+	CallerID       string `xml:"callerId,attr,omitempty"`
+	HangupOnStar   bool   `xml:"hangupOnStar,attr,omitempty"`
+	Method         string `xml:"method,attr,omitempty"`
+
+	Record                        string `xml:"record,attr,omitempty"`
+	RecordingStatusCallback       string `xml:"recordingStatusCallback,attr,omitempty"`
+	RecordingStatusCallbackMethod string `xml:"recordingStatusCallbackMethod,attr,omitempty"`
+	RecordingStatusCallbackEvent  string `xml:"recordingStatusCallbackEvent,attr,omitempty"`
+
+	RingTone string `xml:"ringTone,attr,omitempty"`
+
+	Timeout   int `xml:"timeout,attr,omitempty"`
+	TimeLimit int `xml:"timeLimit,attr,omitempty"`
+
+	Trim string `xml:"trim,attr,omitempty"`
+
+	Number   string   `xml:",chardata"`
+	Children []Markup `xml:",omitempty"`
 }
 
 // Validate returns an error if the TwiML is constructed improperly
