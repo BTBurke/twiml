@@ -90,12 +90,15 @@ type Conference struct {
 	WaitMethod                    string   `xml:"waitMethod,attr,omitempty"`
 	MaxParticipants               int      `xml:"maxParticipants,attr,omitempty"`
 	Record                        string   `xml:"record,attr,omitempty"`
+	Region                        string   `xml:"region,attr,omitempty"`
 	Trim                          string   `xml:"trim,attr,omitempty"`
+	Coach                         string   `xml:"coach,attr,omitempty"`
 	StatusCallbackEvent           string   `xml:"statusCallbackEvent,attr,omitempty"`
 	StatusCallback                string   `xml:"statusCallback,attr,omitempty"`
 	StatusCallbackMethod          string   `xml:"statusCallbackMethod,attr,omitempty"`
 	RecordingStatusCallback       string   `xml:"recordingStatusCallback,attr,omitempty"`
 	RecordingStatusCallbackMethod string   `xml:"recordingStatusCallbackMethod,attr,omitempty"`
+	RecordingStatusCallbackEvent  string   `xml:"recordingStatusCallbackEvent,attr,omitempty"`
 	EventCallbackURL              string   `xml:"eventCallbackUrl,attr,omitempty"`
 }
 
