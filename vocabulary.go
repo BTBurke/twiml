@@ -92,6 +92,7 @@ type Conference struct {
 	Record                        string   `xml:"record,attr,omitempty"`
 	Region                        string   `xml:"region,attr,omitempty"`
 	Trim                          string   `xml:"trim,attr,omitempty"`
+	Coach                         string   `xml:"coach,attr,omitempty"`
 	StatusCallbackEvent           string   `xml:"statusCallbackEvent,attr,omitempty"`
 	StatusCallback                string   `xml:"statusCallback,attr,omitempty"`
 	StatusCallbackMethod          string   `xml:"statusCallbackMethod,attr,omitempty"`
