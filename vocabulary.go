@@ -90,6 +90,7 @@ type Conference struct {
 	WaitMethod                    string   `xml:"waitMethod,attr,omitempty"`
 	MaxParticipants               int      `xml:"maxParticipants,attr,omitempty"`
 	Record                        string   `xml:"record,attr,omitempty"`
+	Region                        string   `xml:"region,attr,omitempty"`
 	Trim                          string   `xml:"trim,attr,omitempty"`
 	StatusCallbackEvent           string   `xml:"statusCallbackEvent,attr,omitempty"`
 	StatusCallback                string   `xml:"statusCallback,attr,omitempty"`
