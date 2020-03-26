@@ -98,6 +98,7 @@ type Conference struct {
 	StatusCallbackMethod          string   `xml:"statusCallbackMethod,attr,omitempty"`
 	RecordingStatusCallback       string   `xml:"recordingStatusCallback,attr,omitempty"`
 	RecordingStatusCallbackMethod string   `xml:"recordingStatusCallbackMethod,attr,omitempty"`
+	RecordingStatusCallbackEvent  string   `xml:"recordingStatusCallbackEvent,attr,omitempty"`
 	EventCallbackURL              string   `xml:"eventCallbackUrl,attr,omitempty"`
 }
 
