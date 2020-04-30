@@ -74,6 +74,10 @@ func Numeric(field string) bool {
 
 // NumericOrWait validates that a string contains only digits 0-9 or the wait key 'w'
 func NumericOrWait(field string) bool {
+	if field == "" {
+		return true
+	}
+
 	matched, err := regexp.MatchString("^[0-9w]+$", field)
 	if err != nil {
 		return false
