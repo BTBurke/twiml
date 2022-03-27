@@ -332,7 +332,6 @@ type Play struct {
 func (p *Play) Validate() error {
 
 	ok := Validate(
-		Required(p.URL),
 		NumericOrWait(p.Digits),
 	)
 

@@ -1,6 +1,6 @@
-module github.com/BTBurke/twiml
+module github.com/KrisLange/twiml
 
-go 1.13
+go 1.17
 
 require (
 	github.com/gorilla/schema v1.1.0
